@@ -145,13 +145,13 @@ func (authController *AuthController) OauthLogin(c echo.Context) error {
 	c.SetCookie(&http.Cookie{
 		Name:    "Token",
 		Value:   loginService.Token,
-		Path:    "/api/v1",
+		Path:    "/",
 		Expires: time.Now().Add(time.Duration(authController.server.Config.Auth.JWTExpired) * time.Minute),
 	})
 	c.SetCookie(&http.Cookie{
 		Name:    "RefreshToken",
 		Value:   loginService.RefreshToken,
-		Path:    "/api/v1",
+		Path:    "/",
 		Expires: time.Now().Add(time.Duration((authController.server.Config.Auth.JWTExpired)+60) * time.Minute),
 	})
 
@@ -197,13 +197,13 @@ func (authController *AuthController) LoginUser(c echo.Context) error {
 	c.SetCookie(&http.Cookie{
 		Name:    "Token",
 		Value:   loginService.Token,
-		Path:    "/api/v1",
+		Path:    "/",
 		Expires: time.Now().Add(time.Duration(authController.server.Config.Auth.JWTExpired) * time.Minute),
 	})
 	c.SetCookie(&http.Cookie{
 		Name:    "RefreshToken",
 		Value:   loginService.RefreshToken,
-		Path:    "/api/v1",
+		Path:    "/",
 		Expires: time.Now().Add(time.Duration((authController.server.Config.Auth.JWTExpired)+60) * time.Minute),
 	})
 
@@ -216,14 +216,14 @@ func (authController *AuthController) Logout(c echo.Context) error {
 	c.SetCookie(&http.Cookie{
 		Name:    "Token",
 		Value:   "",
-		Path:    "/api/v1",
+		Path:    "/",
 		Expires: time.Now(),
 	})
 
 	c.SetCookie(&http.Cookie{
 		Name:    "RefreshToken",
 		Value:   "",
-		Path:    "/api/v1",
+		Path:    "/",
 		Expires: time.Now(),
 	})
 
