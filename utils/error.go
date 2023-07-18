@@ -87,6 +87,20 @@ var (
 			Other: "Username already exist",
 		},
 	}
+	ErrPrefixNoAlreadyExists = &BeError{
+		status: http.StatusNotFound,
+		msg: &i18n.Message{
+			ID:    "prefixNo.already.exists",
+			Other: "Prefix no already exists",
+		},	
+	}
+	ErrOpCodeAlreadyExists = &BeError{
+		status: http.StatusBadRequest,
+		msg: &i18n.Message{
+			ID:    "opcode.already.exist",
+			Other: "opCode already exist",
+		},
+	}
 	ErrRoleNotExists = &BeError{
 		status: http.StatusNotFound,
 		msg: &i18n.Message{
@@ -265,6 +279,13 @@ var (
 		msg: &i18n.Message{
 			ID:    "projects.not_found",
 			Other: "Project Not Found",
+		},
+	}
+	ErrBinKartuNotFound = & BeError{
+		status: http.StatusNotFound,
+		msg: &i18n.Message{
+			ID:    "BinKartu.not.found",
+			Other: "BinKartu Not Found",
 		},
 	}
 

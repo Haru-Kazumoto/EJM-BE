@@ -278,3 +278,17 @@ type UpdateListOpCode struct {
 	ID uint `params:"id" validate:"required"`
 	CreateListOpCode
 }
+
+type CreateNewBinKartu struct {
+	PrefixNo uint `json:"prefix_no" form:"prefix_no" gorm:"uniqueIndex" validate:"required"`
+	BankName string `json:"bank_name" form:"bank_name" validate:"required"`
+}
+
+type UpdateBinKartu struct{
+	ID uint `params:"id" validate:"required"`
+	CreateNewBinKartu
+}
+
+type GetBinKartu struct {
+	BasePagination
+}

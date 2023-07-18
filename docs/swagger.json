@@ -3349,7 +3349,7 @@
             "required": [
                 "modelMesin",
                 "opCode",
-                "tipeTransaksi"
+                "tipeTransaksiid"
             ],
             "properties": {
                 "modelMesin": {
@@ -3358,8 +3358,8 @@
                 "opCode": {
                     "type": "string"
                 },
-                "tipeTransaksi": {
-                    "type": "string"
+                "tipeTransaksiid": {
+                    "type": "integer"
                 }
             }
         },

@@ -3355,7 +3355,7 @@ const docTemplate = `{
             "required": [
                 "modelMesin",
                 "opCode",
-                "tipeTransaksi"
+                "tipeTransaksiid"
             ],
             "properties": {
                 "modelMesin": {
@@ -3364,8 +3364,8 @@ const docTemplate = `{
                 "opCode": {
                     "type": "string"
                 },
-                "tipeTransaksi": {
-                    "type": "string"
+                "tipeTransaksiid": {
+                    "type": "integer"
                 }
             }
         },
