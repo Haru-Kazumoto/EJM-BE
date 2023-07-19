@@ -31,6 +31,7 @@ func InitializeRoute(server *server.Server, cfg *config.Config) {
 	mappingKeywordListController := controllers.NewMappingKeywordListcontroller(server)
 	jenisTransaksiController := controllers.NewMJenisTransaksiController(server)
 	listOpCodeController := controllers.NewListOpCodeController(server)
+	binKartuController := controllers.NewBinKartuController(server)
 
 
 	// middleware
@@ -221,6 +222,15 @@ func InitializeRoute(server *server.Server, cfg *config.Config) {
 			listOpCodeRoute.POST("/create", listOpCodeController.CreateListOpCode)
 			listOpCodeRoute.PUT("/:id", listOpCodeController.UpdateListOpCode)
 			listOpCodeRoute.DELETE("/:id", listOpCodeController.DeleteListOpCode)
+		}
+		
+		binKartuRoute := prefix.Group("/binKartu")
+		{
+			binKartuRoute.GET("", binKartuController.FindBinKartu)
+			binKartuRoute.GET("/:id", binKartuController.FindBinKartuById)
+			binKartuRoute.POST("/create", binKartuController.CreateBinKartu)
+			binKartuRoute.PUT("/:id", binKartuController.UpdateBinKartu)
+			binKartuRoute.DELETE("/:id", binKartuController.DeleteBinKartu)
 		}
 	}
 
