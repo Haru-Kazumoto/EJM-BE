@@ -104,7 +104,7 @@ func (listOpCodeController *ListOpCodeController) FindListOpCode(c echo.Context)
 		Meta: meta,
 		Response: utils.Response{
 			Data: data,
-			Message: "Sukese mengambil data list op code",
+			Message: "Sukses mengambil data list op code",
 			StatusCode: 200,
 		},
 	}

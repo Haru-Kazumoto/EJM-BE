@@ -55,6 +55,7 @@ type GetUsers struct {
 }
 
 type CreateNewUserResponse struct {
+	ID              uint   `json:"id"`
 	Name       string     `json:"name"`
 	Username   string     `json:"username"`
 	RoleId     uint       `json:"roleId"`
@@ -272,11 +273,21 @@ type GetJenisTransaksi struct {
 type CreateListOpCode struct {
 	OPCode string `json:"opCode" form:"opCode" gorm:"uniqueIndex" validate:"required"`
 	ModelMesin string `json:"modelMesin" form:"modelMesin" validate:"required"`
-	TipeTransaksi string `json:"tipeTransaksi" form:"tipeTransaksi" gorm:"uniqueIndex" validate:"required"`
+	TipeTransaksiID uint `json:"tipeTransaksiid" form:"tipeTransaksiid" gorm:"uniqueIndex" validate:"required"`
 }
 
 type GetListOpCode struct {
 	BasePagination
+	ListOpCodes []GetListOpCodeResponse `json:"listOpCodes"`
+
+}
+type GetListOpCodeResponse struct {
+	ID              uint   `json:"id"`
+	OPCode           string `json:"opCode"`
+	ModelMesin       string `json:"modelMesin"`
+	TipeTransaksiID  uint   `json:"tipeTransaksiid"`
+	TransactionType  string `json:"transactionType"`
+	TransactionGroup string `json:"transactionGroup"`
 }
 
 type DeleteListOpCode struct {

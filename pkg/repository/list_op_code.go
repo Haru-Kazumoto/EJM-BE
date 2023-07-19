@@ -16,6 +16,7 @@ type ListOpCodeRepository interface{
 	CreateListOpCode(listOpCode *dto.CreateListOpCode) (models.ListOpCode, error)
 	UpdateListOpCode(id uint, listOpCode *dto.UpdateListOpCode) error
 	DeleteListOpCode(id uint) error
+	GetTransactionDetailsByID(tipeTransaksiID uint) (string, error)
 }
 
 type ListOpCode struct {
@@ -56,14 +57,34 @@ func (listOpCodeObject *ListOpCode) FindListOpCode(pagination *models.Paginate, 
 	}
 
 	// search data
-	data.Scopes(pagination.Pagination()).Debug().
-		Find(&listOpCodes)
+	data.Scopes(pagination.Pagination()).Preload("TipeTransaksi", func(tx *gorm.DB) *gorm.DB {
+		return tx.Select("id", "transaction_type", "transaction_group")
+	}).Find(&listOpCodes)
 	// checking error
 	if err := data.Error; err != nil {
 		return []models.ListOpCode{}, pagination, err
 	}
 
 	return listOpCodes, pagination, nil
+}
+
+// Di dalam repository.ListOpCodeRepository
+// type TransactionDetails struct {
+// 	TransactionType   string
+// 	TransactionGroup  string
+// }
+
+func (listOpCode *ListOpCode) GetTransactionDetailsByID(tipeTransaksiID uint) (string, error) {
+	var details string
+	err := listOpCode.db.Model(&models.MJenisTransaksi{}).
+		Select("transaction_group").
+		Where("id = ?", tipeTransaksiID).
+		Scan(&details).Error
+	if err != nil {
+		return "", err
+	}
+
+	return details, nil
 }
 
 // find by id
@@ -92,7 +113,7 @@ func (listOpCode *ListOpCode) CreateListOpCode(list_op_code *dto.CreateListOpCod
 	listOpCodeModel := models.ListOpCode{
 		OPCode: list_op_code.OPCode,
 		ModelMesin: list_op_code.ModelMesin,
-		TipeTransaksi: list_op_code.TipeTransaksi,
+		TipeTransaksiID: list_op_code.TipeTransaksiID,
 	}
 
 	err := listOpCode.db.Debug().Create(&listOpCodeModel).Error
@@ -108,7 +129,7 @@ func (listOpCodeObject *ListOpCode) UpdateListOpCode(id uint, listOpCode *dto.Up
 	update := listOpCodeObject.ListOpCodeModel().Where("id = ?", id).Updates(models.ListOpCode{
 		OPCode: listOpCode.OPCode,
 		ModelMesin: listOpCode.ModelMesin,
-		TipeTransaksi: listOpCode.TipeTransaksi,
+		TipeTransaksiID: listOpCode.TipeTransaksiID,
 	})
 
 	if err := update.Error; err != nil {

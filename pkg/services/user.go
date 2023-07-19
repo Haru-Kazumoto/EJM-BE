@@ -92,7 +92,7 @@ func (register *RegisterService) RegisterUser(user *dto.CreateNewUser) (models.U
 }
 
 // find all usres [tested]
-func (register *RegisterService) FindUsers(users *dto.GetUsers) (dto.GetUsers, *models.Paginate, error) {
+func (register *RegisterService) FindUsers(users *dto.GetUsers) ([]dto.CreateNewUserResponse, *models.Paginate, error) {
 	pagination := models.Paginate{
 		Page:     users.Page,
 		PageSize: users.PageSize,
@@ -102,7 +102,7 @@ func (register *RegisterService) FindUsers(users *dto.GetUsers) (dto.GetUsers, *
 
 	data, meta, err := registerRepo.FindUsers(&pagination, users.Search, users.Value)
 	if err != nil {
-		return dto.GetUsers{}, meta, err
+		return []dto.CreateNewUserResponse{}, meta, err
 	}
 
 	// Buat slice baru untuk menyimpan data pengguna dengan role name
@@ -113,6 +113,7 @@ func (register *RegisterService) FindUsers(users *dto.GetUsers) (dto.GetUsers, *
 		// Pastikan Anda sudah menggunakan Preload untuk mengambil data role
 		// saat melakukan query ke database (seperti pada contoh repository.FindUsers)
 		userDTO := dto.CreateNewUserResponse{
+			ID: user.ID,
 			Name:       user.Name,
 			Username:   user.Username,
 			RoleId:     user.RoleId,
@@ -123,12 +124,7 @@ func (register *RegisterService) FindUsers(users *dto.GetUsers) (dto.GetUsers, *
 		usersWithRoleName = append(usersWithRoleName, userDTO)
 	}
 
-	responseDTO := dto.GetUsers{
-		BasePagination: users.BasePagination,
-		Users:          usersWithRoleName,
-	}
-
-	return responseDTO, meta, nil
+	return usersWithRoleName, meta, nil
 }
 
 // update user [tested]

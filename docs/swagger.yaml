@@ -35,12 +35,12 @@ definitions:
         type: string
       opCode:
         type: string
-      tipeTransaksi:
-        type: string
+      tipeTransaksiid:
+        type: integer
     required:
     - modelMesin
     - opCode
-    - tipeTransaksi
+    - tipeTransaksiid
     type: object
   dto.CreateMappingkeywordlist:
     properties:
