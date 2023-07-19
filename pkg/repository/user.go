@@ -21,6 +21,7 @@ type UserRepository interface {
 	ToggleActive(id uint, payload *bool) error // [activating the user]
 	DeleteUser(id uint) error // [delete user]
 	CreateUser(user *dto.CreateNewUser) (models.User, error) //OK [create data]
+	GetRoleNameByID(roleID uint) (string, error)
 }
 
 type User struct {
@@ -160,6 +161,17 @@ func (register *User) FindUsers(pagination *models.Paginate, search string, valu
 	}
 
 	return users, pagination, nil
+}
+
+// Di dalam repository.UserRepository
+func (register *User) GetRoleNameByID(roleID uint) (string, error) {
+	var roleName string
+	err := register.Db.Model(&models.Role{}).Select("name").Where("id = ?", roleID).Scan(&roleName).Error
+	if err != nil {
+		return "", err
+	}
+
+	return roleName, nil
 }
 
 // update user

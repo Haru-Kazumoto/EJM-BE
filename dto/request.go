@@ -51,6 +51,15 @@ type ToggleActive struct {
 
 type GetUsers struct {
 	BasePagination
+	Users []CreateNewUserResponse `json:"users"`
+}
+
+type CreateNewUserResponse struct {
+	Name       string     `json:"name"`
+	Username   string     `json:"username"`
+	RoleId     uint       `json:"roleId"`
+	Active     ActiveEnum `json:"active"`
+	RoleName   string     `json:"roleName"` // Field untuk menampilkan role name pada response
 }
 
 type GetNotification struct {

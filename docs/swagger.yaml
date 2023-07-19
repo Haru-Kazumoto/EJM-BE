@@ -35,12 +35,12 @@ definitions:
         type: string
       opCode:
         type: string
-      tipeTransaksiid:
-        type: integer
+      tipeTransaksi:
+        type: string
     required:
     - modelMesin
     - opCode
-    - tipeTransaksiid
+    - tipeTransaksi
     type: object
   dto.CreateMappingkeywordlist:
     properties:
@@ -60,6 +60,16 @@ definitions:
     required:
     - name
     - path
+    type: object
+  dto.CreateNewBinKartu:
+    properties:
+      bank_name:
+        type: string
+      prefix_no:
+        type: integer
+    required:
+    - bank_name
+    - prefix_no
     type: object
   dto.CreateNewJenisTransaksi:
     properties:
@@ -885,6 +895,200 @@ paths:
       summary: Refresh JWT Token Yang Expired
       tags:
       - Auth
+  /binKartu:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Halaman
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: Jumlah Data Per halaman
+        in: query
+        name: page_size
+        required: true
+        type: string
+      - description: Mencari Data
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponsePaginate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+      summary: API untuk Ambil semua daftar Bin Kartu
+      tags:
+      - Bin Kartu
+  /binKartu/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+      summary: API untuk Delete Bin Kartu
+      tags:
+      - Bin Kartu
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+      summary: API untuk Find Bin Kartu By ID
+      tags:
+      - Bin Kartu
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Bin Kartu
+        in: body
+        name: binKartu
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateNewBinKartu'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+      summary: API untuk update bin kartu
+      tags:
+      - Bin Kartu
+  /binKartu/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Daftar Bin Kartu Baru
+        in: body
+        name: binKartu
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateNewBinKartu'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+      summary: API untuk Membuat Bin Kartu Baru
+      tags:
+      - Bin Kartu
   /jenisTransaksi:
     get:
       consumes:
