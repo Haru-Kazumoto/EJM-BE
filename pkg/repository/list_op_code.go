@@ -49,11 +49,11 @@ func (listOpCodeObject *ListOpCode) FindListOpCode(pagination *models.Paginate, 
 		Count(&pagination.Total)
 
 	if search != "" {
-		data.Where("lower(listOpCode.code) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+		data.Where("lower(list_op_codes.code) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
 	}
 
 	if value != "" {
-		data.Order("listOpCode.id = " + value + "desc")
+		data.Order("list_op_codes.id = " + value + "desc")
 	}
 
 	// search data

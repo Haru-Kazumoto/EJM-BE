@@ -144,7 +144,7 @@ func (register *User) FindUsers(pagination *models.Paginate, search string, valu
 
 	if search != "" {
 		// cari data
-		data.Where("lower(users.full_name) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+		data.Where("lower(users.username) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
 	}
 
 	if value != "" {

@@ -37,15 +37,15 @@ func (binKartuObject *BinKartu) FindBinKartu(pagination *models.Paginate, value 
 		Count(&pagination.Total)
 
 	// if search != "" {
-	// 	data.Where("lower(jenisTransaksi.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+	// 	data.Where("lower(bin_kartus.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
 	// }
 
 	// if usingActive {
-	// 	data.Where("jenisTransaksi.is_active", true).Count(&pagination.Total)
+	// 	data.Where("bin_kartus.is_active", true).Count(&pagination.Total)
 	// }
 
 	if value != "" {
-		data.Order("jenisTransaksi.id = " + value + " desc")
+		data.Order("bin_kartus.id = " + value + " desc")
 	}
 
 	// cari data

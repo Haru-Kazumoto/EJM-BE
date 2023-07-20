@@ -56,11 +56,11 @@ func (mappingKeywordListObject *MappingKeywordList) FindMappingkeywordlist(pagin
 		Count(&pagination.Total)
 
 		if search != "" {
-			data.Where("lower(mappingKeywordLisit.code) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+			data.Where("lower(mapping_keyword_lists.code) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
 		}
 
 		if value != "" {
-			data.Order("mappingKeywordList.id = " + value + " desc	")
+			data.Order("mapping_keyword_lists.id = " + value + " desc	")
 		}
 
 		// search data

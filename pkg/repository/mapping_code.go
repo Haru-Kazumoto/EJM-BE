@@ -60,15 +60,15 @@ func (mappingCodeObject *MappingCode) FindMappingCodes(pagination *models.Pagina
 		Count(&pagination.Total)
 
 	// if search != "" {
-	// 	data.Where("lower(mappingCodes.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+	// 	data.Where("lower(mapping_codes.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
 	// }
 
 	if usingActive {
-		data.Where("mappingCodes.is_active", true).Count(&pagination.Total)
+		data.Where("mapping_codes.is_active", true).Count(&pagination.Total)
 	}
 
 	if value != "" {
-		data.Order("mappingCodes.id = " + value + " desc")
+		data.Order("mapping_codes.id = " + value + "asc")
 	}
 
 	// cari data
