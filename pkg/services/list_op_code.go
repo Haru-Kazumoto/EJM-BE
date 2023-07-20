@@ -22,6 +22,15 @@ func NewListOpCodeService(service *ListOpCodeService) *ListOpCodeService {
 // new list op code
 func (listOpCode *ListOpCodeService) CreateListOpCode(listOpCodeDto *dto.CreateListOpCode) (models.ListOpCode, error) {
 	listOpCodes :=  listOpCode.ListOpCodeRepository
+		// cari role dulu
+		_, tipeTransaksiIdNotFound := listOpCodes.FindListOpCodeById(uint(listOpCodeDto.TipeTransaksiID))
+		if tipeTransaksiIdNotFound != nil {
+			if errors.Is(tipeTransaksiIdNotFound, gorm.ErrRecordNotFound) {
+				return models.ListOpCode{}, utils.ErrListOpCodeNotFound
+			} else {
+				return models.ListOpCode{}, tipeTransaksiIdNotFound
+			}
+		}
 	data, err := listOpCodes.CreateListOpCode(listOpCodeDto)
 	if err != nil {
 		return models.ListOpCode{}, err
