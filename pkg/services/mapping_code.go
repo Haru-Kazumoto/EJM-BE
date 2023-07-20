@@ -93,7 +93,7 @@ func ( mappingCode *MappingCodeService) UpdateMappingCode(id uint, mapping_code 
 	}
 
 	_, errFindMappingCode := mappingCodeRepo.FindMappingCodeById(id)
-	if errFindMappingCode != nil { // kalo user gak ada
+	if errFindMappingCode != nil { 
 		// return utils.ErrUserNotFound
 	}
 

@@ -18,7 +18,7 @@ type RoleRepository interface {
 	FindRoles(pagination *models.Paginate, search string, usingActive bool, value string) ([]models.Role, *models.Paginate, error)
 	FindRoleByName(name string) error
 	DeleteRole(roleId uint) error
-	UpdateRole(role *dto.UpdateRole) (models.Role, error)
+	UpdateRole(id uint,role *dto.UpdateRole) error
 	SetAccessRole(roleId uint, menus []uint) error
 	UpdateAccessRole(roleId uint, menus []uint) error
 	DeleteAccessRole(roleId uint, menuId uint) error
@@ -111,24 +111,22 @@ func (roleObject *Role) FindByName(name string) (models.Role, error) {
 }
 
 // update role
-func (roleObject *Role) UpdateRole(role *dto.UpdateRole) (models.Role, error) {
+func (roleObject *Role) UpdateRole(id uint,role *dto.UpdateRole) error {
 	// var objectMenus []interface{}
 	// for _, action := range role.ObjectActions {
 	// 	objectMenus = append(objectMenus, action)
 	// }
 
-	data := models.Role{
-		Name:        role.Name,
+	update := roleObject.RoleModel().Where("roles.id = ?", id).Updates(models.Role{
+		Name: role.Name,
 		Description: role.Description,
+	})
+
+	if err := update.Error; err != nil {
+		return err
 	}
 
-	updateUser := roleObject.RoleModel().Where("roles.id = ?", role.ID).Updates(&data)
-
-	if err := updateUser.Error; err != nil {
-		return models.Role{}, err
-	}
-
-	return data, nil
+	return nil
 }
 
 // find role
