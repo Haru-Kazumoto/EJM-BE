@@ -86,7 +86,7 @@ func (mJenisTransaksiObject *MJenisTransaksi) FindByTransactionType(transactionT
 
 	if err := mJenisTransaksiObject.MJenisTransaksiModel().
 		First(&jenisTransaksi, "transactionType = ?", transactionType).Error; err == nil {
-		return utils.ErrDefinitionAlreadyExists
+		return utils.ErrTransaksiAlreadyExists
 	}
 
 	return nil

@@ -56,10 +56,10 @@ func (mappingCodeController *MappingCodeController) CreateMappingCode(c echo.Con
 
 	data, err := mappingCodeController.mappingCodeService.CreateMappingCode(req)
 	if err != nil {
-		if errors.Is(err, utils.ErrDefinitionAlreadyExists) {
+		if errors.Is(err, utils.ErrCodeAlreadyExists) {
 			res := utils.Response{
 				Data:       nil,
-				Message:    "Definition Already Exist",
+				Message:    "Mapping Code Already Exist",
 				StatusCode: 404,
 			}
 			return res.ReturnSingleMessage(c)

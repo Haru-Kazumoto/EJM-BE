@@ -152,7 +152,7 @@ func (register *User) FindUsers(pagination *models.Paginate, search string, valu
 	}
 	//pagination
 	data.Scopes(pagination.Pagination()).Preload("Role", func(tx *gorm.DB) *gorm.DB {
-		return tx.Select("id,is_active,name")
+		return tx.Select("id,name")
 	}).Find(&users)
 
 	// checking errors

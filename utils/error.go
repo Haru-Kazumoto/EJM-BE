@@ -60,8 +60,8 @@ var (
 	ErrListOpCodeNotFound = &BeError{
 		status: http.StatusNotFound,
 		msg: &i18n.Message{
-			ID:    "user.not.found",
-			Other: "User Not Found",
+			ID:    "opCode.not.found",
+			Other: "Op Code Not Found",
 		},
 	}
 
@@ -123,11 +123,18 @@ var (
 			Other: "Mapping Code Not Found",
 		},
 	}
-	ErrDefinitionAlreadyExists = &BeError{
+	ErrCodeAlreadyExists = &BeError{
 		status: http.StatusNotFound,
 		msg: &i18n.Message{
 			ID:    "mappingCode.already.exists",
 			Other: "Mapping Code already exists",
+		},
+	}
+	ErrTransaksiAlreadyExists = &BeError{
+		status: http.StatusNotFound,
+		msg: &i18n.Message{
+			ID:    "transaksi.already.exists",
+			Other: "Transaksi already exists",
 		},
 	}
 	ErrTransactionTypeAlreadyExists = &BeError{

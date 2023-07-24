@@ -271,9 +271,9 @@ type GetJenisTransaksi struct {
 
 // list op code
 type CreateListOpCode struct {
-	OPCode string `json:"opCode" form:"opCode" gorm:"uniqueIndex" validate:"required"`
+	OPCode string `json:"opCode" form:"opCode" validate:"required"`
 	ModelMesin string `json:"modelMesin" form:"modelMesin" validate:"required"`
-	TipeTransaksiID uint `json:"tipeTransaksiid" form:"tipeTransaksiid" gorm:"uniqueIndex" validate:"required"`
+	TipeTransaksiID uint `json:"tipeTransaksiid" form:"tipeTransaksiid" validate:"required"`
 }
 
 type GetListOpCode struct {

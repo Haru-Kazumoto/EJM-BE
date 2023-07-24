@@ -51,11 +51,17 @@ func (listOpCodeController *ListOpCodeController) CreateListOpCode(c echo.Contex
 	if err := c.Validate(req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Validasi gagal")
 	}
+	
 
 	data, err := listOpCodeController.listOpCodeService.CreateListOpCode(req)
 	if err != nil {
-		if err.Error() == "Keyword already exist" {
-			return echo.NewHTTPError(http.StatusBadRequest, "Keyword already exists")
+		if errors.Is(err, utils.ErrOpCodeAlreadyExists) {
+			res := utils.Response{
+				Data:       nil,
+				Message:    "OP Code Already Exist",
+				StatusCode: 404,
+			}
+			return res.ReturnSingleMessage(c)
 		}
 
 		return err
