@@ -122,6 +122,10 @@ func initSeeder(cfg *config.Config, args []string) {
 			Name: "Mapping Code Seeder",
 			DB:   dbObject,
 		},
+		&scripts.TermSeeder{
+			Name: "Term Seeder",
+			DB:   dbObject,
+		},
 	)
 
 	chanResults := InsertData(chanIn, 10)

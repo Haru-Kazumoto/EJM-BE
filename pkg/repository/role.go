@@ -160,7 +160,7 @@ func (roleObject *Role) FindRoles(pagination *models.Paginate, search string, us
 	data := roleObject.RoleModel().Count(&pagination.Total)
 
 	if search != "" {
-		data.Where("lower(roles.name) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+		data.Where("lower(roles.name) like ? OR  lower(roles.description) like ?", "%"+strings.ToLower(search)+"%", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
 	}
 
 	if usingActive {

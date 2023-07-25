@@ -5,12 +5,13 @@ import (
 	"EJM/pkg/models"
 	"EJM/utils"
 	"errors"
+	"strings"
 
 	"gorm.io/gorm"
 )
 
 type BinKartuRepository interface {
-	FindBinKartu(pagination *models.Paginate, value string) ([]models.BinKartu, *models.Paginate, error)
+	FindBinKartu(pagination *models.Paginate, search string,value string) ([]models.BinKartu, *models.Paginate, error)
 	FindBinKartuById(id uint) (models.BinKartu, error)
 	FindByPrefixNo(prefixNo uint) error
 	CreateBinKartu(binKartuDto *dto.CreateNewBinKartu) (models.BinKartu, error)
@@ -31,14 +32,14 @@ func (binKartuObject *BinKartu) BinKartuModel() (tx *gorm.DB) {
 }
 
 //find bin kartu paginate
-func (binKartuObject *BinKartu) FindBinKartu(pagination *models.Paginate, value string) ([]models.BinKartu, *models.Paginate, error) {
+func (binKartuObject *BinKartu) FindBinKartu(pagination *models.Paginate, search string,value string) ([]models.BinKartu, *models.Paginate, error) {
 	var binKartu []models.BinKartu
 	data := binKartuObject.BinKartuModel().
 		Count(&pagination.Total)
 
-	// if search != "" {
-	// 	data.Where("lower(bin_kartus.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
-	// }
+	if search != "" {
+		data.Where("lower(bin_kartus.bank_name) like ? OR bin_kartus.prefix_no = ?", "%"+strings.ToLower(search)+"%", search).Count(&pagination.Total)
+	}
 
 	// if usingActive {
 	// 	data.Where("bin_kartus.is_active", true).Count(&pagination.Total)

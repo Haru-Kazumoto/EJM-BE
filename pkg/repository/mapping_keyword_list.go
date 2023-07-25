@@ -50,13 +50,13 @@ func (mappingKeywordListObject *MappingKeywordList) MappingKeywordListModel() (t
 
 // find all mapping keyword list paginated
 
-func (mappingKeywordListObject *MappingKeywordList) FindMappingkeywordlist(pagination *models.Paginate, search, value string) ([]models.MappingKeywordList, *models.Paginate, error) {
+func (mappingKeywordListObject *MappingKeywordList) FindMappingkeywordlist(pagination *models.Paginate, search string, value string) ([]models.MappingKeywordList, *models.Paginate, error) {
 	var mappingKeywordLists []models.MappingKeywordList
 	data := mappingKeywordListObject.MappingKeywordListModel().
 		Count(&pagination.Total)
 
 		if search != "" {
-			data.Where("lower(mapping_keyword_lists.code) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+			data.Where("lower(mapping_keyword_lists.mapping_keyword_list) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
 		}
 
 		if value != "" {

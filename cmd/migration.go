@@ -33,6 +33,7 @@ func initMigration(cfg *config.Config, args []string) {
 			models.MJenisTransaksi{},
 			models.ListOpCode{},
 			models.BinKartu{},
+			models.Term{},
 			
 		}
 		var filtered []interface{}

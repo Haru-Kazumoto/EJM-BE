@@ -144,8 +144,9 @@ func (register *User) FindUsers(pagination *models.Paginate, search string, valu
 
 	if search != "" {
 		// cari data
-		data.Where("lower(users.username) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
-	}
+		data.Where("lower(users.name) LIKE ? OR lower(users.username) LIKE ? OR lower(roles.name) LIKE ?", "%"+strings.ToLower(search)+"%", "%"+strings.ToLower(search)+"%").
+		Joins("JOIN roles ON roles.id = users.role_id").
+		Count(&pagination.Total)	}
 
 	if value != "" {
 		data.Order("users.id = " + value + " desc")

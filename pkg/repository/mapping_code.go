@@ -5,6 +5,7 @@ import (
 	"EJM/pkg/models"
 	"EJM/utils"
 	"errors"
+	"strings"
 
 	// "errors"
 	// "strings"
@@ -14,7 +15,7 @@ import (
 
 type MappingCodeRepository interface {
 	// TransactionRepository
-	FindMappingCodes(pagination *models.Paginate, usingActive bool, value string) ([]models.MappingCode, *models.Paginate, error)
+	FindMappingCodes(pagination *models.Paginate, search string,usingActive bool, value string) ([]models.MappingCode, *models.Paginate, error)	
 	FindMappingCodeById(id uint) (models.MappingCode, error)
 	FindMappingCodeByCode(code string) error
 	CreateMappingCode(mappingCode *dto.CreateNewMappingCode) (models.MappingCode, error)
@@ -54,14 +55,14 @@ func (mappingCodeObject *MappingCode) MappingCodeModel() (tx *gorm.DB) {
 }
 
 // find all mapping codes paginated
-func (mappingCodeObject *MappingCode) FindMappingCodes(pagination *models.Paginate, usingActive bool, value string) ([]models.MappingCode, *models.Paginate, error) {
+func (mappingCodeObject *MappingCode) FindMappingCodes(pagination *models.Paginate, search string,usingActive bool, value string) ([]models.MappingCode, *models.Paginate, error) {
 	var mappingCodes []models.MappingCode
 	data := mappingCodeObject.MappingCodeModel().
 		Count(&pagination.Total)
 
-	// if search != "" {
-	// 	data.Where("lower(mapping_codes.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
-	// }
+	if search != "" {
+		data.Where("lower(mapping_codes.code) LIKE ? OR lower(mapping_codes.definition) LIKE ? OR mapping_codes.priority = ?", "%"+strings.ToLower(search)+"%", "%"+strings.ToLower(search)+"%", search).Count(&pagination.Total)
+	}
 
 	if usingActive {
 		data.Where("mapping_codes.is_active", true).Count(&pagination.Total)
