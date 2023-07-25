@@ -51,6 +51,16 @@ type ToggleActive struct {
 
 type GetUsers struct {
 	BasePagination
+	Users []CreateNewUserResponse `json:"users"`
+}
+
+type CreateNewUserResponse struct {
+	ID              uint   `json:"id"`
+	Name       string     `json:"name"`
+	Username   string     `json:"username"`
+	RoleId     uint       `json:"roleId"`
+	Active     ActiveEnum `json:"active"`
+	RoleName   string     `json:"roleName"` // Field untuk menampilkan role name pada response
 }
 
 type GetNotification struct {
@@ -182,15 +192,16 @@ type UpdateAction struct {
 // --------------------Roles
 type CreateRole struct {
 	Name          string        `json:"name" validate:"required"`
-	Actions       []MenusAction `json:"actions" validate:"required"`
-	ObjectActions []struct {
-		ID       int    `json:"id" validate:"required"`
-		Name     string `json:"name" validate:"required"`
-		ParentID uint   `json:"parentId"`
-		Path     string `json:"path" validate:"required"`
-		State    int    `json:"state"`
-		Type     string `json:"type" validate:"required"`
-	} `json:"object_actions" validate:"required,dive,required"`
+	Description string        `validate:"required" json:"description"` //Main field
+	// Actions       []MenusAction `json:"actions" validate:"required"`
+	// ObjectActions []struct {
+	// 	ID       int    `json:"id" validate:"required"`
+	// 	Name     string `json:"name" validate:"required"`
+	// 	ParentID uint   `json:"parentId"`
+	// 	Path     string `json:"path" validate:"required"`
+	// 	State    int    `json:"state"`
+	// 	Type     string `json:"type" validate:"required"`
+	// } `json:"object_actions" validate:"required,dive,required"`
 }
 
 type DeleteRoleBulk struct {
@@ -260,13 +271,23 @@ type GetJenisTransaksi struct {
 
 // list op code
 type CreateListOpCode struct {
-	OPCode string `json:"opCode" form:"opCode" gorm:"uniqueIndex" validate:"required"`
+	OPCode string `json:"opCode" form:"opCode" validate:"required"`
 	ModelMesin string `json:"modelMesin" form:"modelMesin" validate:"required"`
-	TipeTransaksi string `json:"tipeTransaksi" form:"tipeTransaksi" gorm:"uniqueIndex" validate:"required"`
+	TipeTransaksiID uint `json:"tipeTransaksiid" form:"tipeTransaksiid" validate:"required"`
 }
 
 type GetListOpCode struct {
 	BasePagination
+	ListOpCodes []GetListOpCodeResponse `json:"listOpCodes"`
+
+}
+type GetListOpCodeResponse struct {
+	ID              uint   `json:"id"`
+	OPCode           string `json:"opCode"`
+	ModelMesin       string `json:"modelMesin"`
+	TipeTransaksiID  uint   `json:"tipeTransaksiid"`
+	TransactionType  string `json:"transactionType"`
+	TransactionGroup string `json:"transactionGroup"`
 }
 
 type DeleteListOpCode struct {
@@ -276,4 +297,18 @@ type DeleteListOpCode struct {
 type UpdateListOpCode struct {
 	ID uint `params:"id" validate:"required"`
 	CreateListOpCode
+}
+
+type CreateNewBinKartu struct {
+	PrefixNo uint `json:"prefix_no" form:"prefix_no" gorm:"uniqueIndex" validate:"required"`
+	BankName string `json:"bank_name" form:"bank_name" validate:"required"`
+}
+
+type UpdateBinKartu struct{
+	ID uint `params:"id" validate:"required"`
+	CreateNewBinKartu
+}
+
+type GetBinKartu struct {
+	BasePagination
 }

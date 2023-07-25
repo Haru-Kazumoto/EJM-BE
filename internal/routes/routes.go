@@ -31,6 +31,7 @@ func InitializeRoute(server *server.Server, cfg *config.Config) {
 	mappingKeywordListController := controllers.NewMappingKeywordListcontroller(server)
 	jenisTransaksiController := controllers.NewMJenisTransaksiController(server)
 	listOpCodeController := controllers.NewListOpCodeController(server)
+	binKartuController := controllers.NewBinKartuController(server)
 
 
 	// middleware
@@ -192,8 +193,7 @@ func InitializeRoute(server *server.Server, cfg *config.Config) {
 			mappingCodeRoutes.DELETE("", mappingCodeController.DeleteMappingCodeBulk)
 		}
 
-
-		// Mapping Keyword List 
+		// Mapping Keyword List
 		mappingKeywordListRoutes := prefix.Group("/mappingKeywordList")
 		{
 			mappingKeywordListRoutes.GET("", mappingKeywordListController.FindMappingkeywordlist)
@@ -203,7 +203,7 @@ func InitializeRoute(server *server.Server, cfg *config.Config) {
 			mappingKeywordListRoutes.DELETE("/:id", mappingKeywordListController.DeleteMappingkeywordlist)
 		}
 
-		//Mapping Code
+		//Jenis Transaksi
 		jenisTransaksiRoutes := prefix.Group("/jenisTransaksi")
 		{
 			jenisTransaksiRoutes.GET("", jenisTransaksiController.FindJenisTransaksi)
@@ -212,7 +212,6 @@ func InitializeRoute(server *server.Server, cfg *config.Config) {
 			jenisTransaksiRoutes.PUT("/:id", jenisTransaksiController.UpdateJenisTransaksi)
 			jenisTransaksiRoutes.DELETE("/:id", jenisTransaksiController.DeleteJenisTransaksi)
 			// jenisTransaksiRoutes.DELETE("", jenisTransaksiController.DeleteMappingCodeBulk)
-
 		}
 
 		// list op code
@@ -223,6 +222,15 @@ func InitializeRoute(server *server.Server, cfg *config.Config) {
 			listOpCodeRoute.POST("/create", listOpCodeController.CreateListOpCode)
 			listOpCodeRoute.PUT("/:id", listOpCodeController.UpdateListOpCode)
 			listOpCodeRoute.DELETE("/:id", listOpCodeController.DeleteListOpCode)
+		}
+		
+		binKartuRoute := prefix.Group("/binKartu")
+		{
+			binKartuRoute.GET("", binKartuController.FindBinKartu)
+			binKartuRoute.GET("/:id", binKartuController.FindBinKartuById)
+			binKartuRoute.POST("/create", binKartuController.CreateBinKartu)
+			binKartuRoute.PUT("/:id", binKartuController.UpdateBinKartu)
+			binKartuRoute.DELETE("/:id", binKartuController.DeleteBinKartu)
 		}
 	}
 

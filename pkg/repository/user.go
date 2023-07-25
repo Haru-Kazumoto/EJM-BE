@@ -21,6 +21,7 @@ type UserRepository interface {
 	ToggleActive(id uint, payload *bool) error // [activating the user]
 	DeleteUser(id uint) error // [delete user]
 	CreateUser(user *dto.CreateNewUser) (models.User, error) //OK [create data]
+	GetRoleNameByID(roleID uint) (string, error)
 }
 
 type User struct {
@@ -143,7 +144,7 @@ func (register *User) FindUsers(pagination *models.Paginate, search string, valu
 
 	if search != "" {
 		// cari data
-		data.Where("lower(users.full_name) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+		data.Where("lower(users.username) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
 	}
 
 	if value != "" {
@@ -151,7 +152,7 @@ func (register *User) FindUsers(pagination *models.Paginate, search string, valu
 	}
 	//pagination
 	data.Scopes(pagination.Pagination()).Preload("Role", func(tx *gorm.DB) *gorm.DB {
-		return tx.Select("id,is_active,name")
+		return tx.Select("id,name")
 	}).Find(&users)
 
 	// checking errors
@@ -160,6 +161,17 @@ func (register *User) FindUsers(pagination *models.Paginate, search string, valu
 	}
 
 	return users, pagination, nil
+}
+
+// Di dalam repository.UserRepository
+func (register *User) GetRoleNameByID(roleID uint) (string, error) {
+	var roleName string
+	err := register.Db.Model(&models.Role{}).Select("name").Where("id = ?", roleID).Scan(&roleName).Error
+	if err != nil {
+		return "", err
+	}
+
+	return roleName, nil
 }
 
 // update user

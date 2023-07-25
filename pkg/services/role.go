@@ -21,14 +21,14 @@ func NewRoleService(service *RoleService) *RoleService {
 	return service
 }
 
-func (role *RoleService) CreateRole(roleDto *dto.CreateRole, userLoginID uint) (models.Role, error) {
+func (role *RoleService) CreateRole(roleDto *dto.CreateRole) (models.Role, error) {
 	var roles repository.RoleRepository = role.RoleRepository
 
 	// check role exist in database
 	roleIsExist := roles.FindRoleByName(roleDto.Name)
 
 	if roleIsExist != nil {
-		return models.Role{}, roleIsExist
+		return models.Role{}, errors.New("Role already exists")
 	}
 
 	data, err := roles.CreateRole(roleDto)
@@ -104,11 +104,11 @@ func (role *RoleService) FindRoles(getRoles *dto.GetRoles) ([]models.Role, *mode
 	return data, meta, nil
 }
 
-func (roleService *RoleService) UpdateRole(role *dto.UpdateRole, userID uint) error {
+func (roleService *RoleService) UpdateRole(id uint,role *dto.UpdateRole ) error {
 	var roleRepo repository.RoleRepository = roleService.RoleRepository
 
+	//check if role exist
 	_, err := roleRepo.FindRoleById(role.ID)
-
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return utils.ErrRoleNotExists
@@ -117,12 +117,12 @@ func (roleService *RoleService) UpdateRole(role *dto.UpdateRole, userID uint) er
 		}
 	}
 
-	_, errUpdateRole := roleRepo.UpdateRole(role)
-	if errUpdateRole != nil {
-		return errUpdateRole
-	}
+	return roleRepo.UpdateRole(id, role)
 
-	return nil
+	// _, errUpdateRole := roleRepo.UpdateRole(role)
+	// if errUpdateRole != nil {
+	// 	return errUpdateRole
+	// }
 }
 
 // Update Akses Role

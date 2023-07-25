@@ -45,11 +45,11 @@ func NewMappingCodeService(service *MappingCodeService) *MappingCodeService {
 func (mappingCode *MappingCodeService) CreateMappingCode(mappingCodeDto *dto.CreateNewMappingCode) (models.MappingCode, error) {
 	mappingCodes := mappingCode.MappingCodeRepository
 
-	// Cek apakah definition sudah ada di database
-	DefinitionIsExist := mappingCodes.FindMappingCodeByDefinition(mappingCodeDto.Definition)
+	// Cek apakah code sudah ada di database
+	CodeIsExist := mappingCodes.FindMappingCodeByCode(mappingCodeDto.Code)
 
-	if DefinitionIsExist != nil {
-		return models.MappingCode{}, DefinitionIsExist
+	if CodeIsExist != nil {
+		return models.MappingCode{}, CodeIsExist
 	}
 
 	data, err := mappingCodes.CreateMappingCode(mappingCodeDto)
@@ -93,7 +93,7 @@ func ( mappingCode *MappingCodeService) UpdateMappingCode(id uint, mapping_code 
 	}
 
 	_, errFindMappingCode := mappingCodeRepo.FindMappingCodeById(id)
-	if errFindMappingCode != nil { // kalo user gak ada
+	if errFindMappingCode != nil { 
 		// return utils.ErrUserNotFound
 	}
 

@@ -60,8 +60,10 @@ var (
 	ErrListOpCodeNotFound = &BeError{
 		status: http.StatusNotFound,
 		msg: &i18n.Message{
+
 			ID:    "liatopcode.not.found",
 			Other: "List Op Code Not Found",
+
 		},
 	}
 
@@ -87,6 +89,20 @@ var (
 			Other: "Username already exist",
 		},
 	}
+	ErrPrefixNoAlreadyExists = &BeError{
+		status: http.StatusNotFound,
+		msg: &i18n.Message{
+			ID:    "prefixNo.already.exists",
+			Other: "Prefix no already exists",
+		},	
+	}
+	ErrOpCodeAlreadyExists = &BeError{
+		status: http.StatusBadRequest,
+		msg: &i18n.Message{
+			ID:    "opcode.already.exist",
+			Other: "opCode already exist",
+		},
+	}
 	ErrRoleNotExists = &BeError{
 		status: http.StatusNotFound,
 		msg: &i18n.Message{
@@ -109,18 +125,26 @@ var (
 			Other: "Mapping Code Not Found",
 		},
 	}
-	ErrDefinitionAlreadyExists = &BeError{
+	ErrCodeAlreadyExists = &BeError{
 		status: http.StatusNotFound,
 		msg: &i18n.Message{
 			ID:    "mappingCode.already.exists",
 			Other: "Mapping Code already exists",
 		},
 	}
+
 	ErrMappingKeywordListAlreadyExists = &BeError{
 		status: http.StatusNotFound,
 		msg: &i18n.Message{
 			ID:    "mappingKeywroddList.already.exists",
 			Other: "Mapping Keyword List already exists",
+		},
+	}
+	ErrTransaksiAlreadyExists = &BeError{
+		status: http.StatusNotFound,
+		msg: &i18n.Message{
+			ID:    "transaksi.already.exists",
+			Other: "Transaksi already exists",
 		},
 	}
 	ErrTransactionTypeAlreadyExists = &BeError{
@@ -279,6 +303,13 @@ var (
 		msg: &i18n.Message{
 			ID:    "projects.not_found",
 			Other: "Project Not Found",
+		},
+	}
+	ErrBinKartuNotFound = & BeError{
+		status: http.StatusNotFound,
+		msg: &i18n.Message{
+			ID:    "BinKartu.not.found",
+			Other: "BinKartu Not Found",
 		},
 	}
 

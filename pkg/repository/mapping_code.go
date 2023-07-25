@@ -16,7 +16,7 @@ type MappingCodeRepository interface {
 	// TransactionRepository
 	FindMappingCodes(pagination *models.Paginate, usingActive bool, value string) ([]models.MappingCode, *models.Paginate, error)
 	FindMappingCodeById(id uint) (models.MappingCode, error)
-	FindMappingCodeByDefinition(definition string) error
+	FindMappingCodeByCode(code string) error
 	CreateMappingCode(mappingCode *dto.CreateNewMappingCode) (models.MappingCode, error)
 	UpdateMappingCode(id uint, mappingCode *dto.UpdateMappingCode) error
 	DeleteMappingCode(id uint) error
@@ -60,15 +60,15 @@ func (mappingCodeObject *MappingCode) FindMappingCodes(pagination *models.Pagina
 		Count(&pagination.Total)
 
 	// if search != "" {
-	// 	data.Where("lower(mappingCodes.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+	// 	data.Where("lower(mapping_codes.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
 	// }
 
 	if usingActive {
-		data.Where("mappingCodes.is_active", true).Count(&pagination.Total)
+		data.Where("mapping_codes.is_active", true).Count(&pagination.Total)
 	}
 
 	if value != "" {
-		data.Order("mappingCodes.id = " + value + " desc")
+		data.Order("mapping_codes.id = " + value + "asc")
 	}
 
 	// cari data
@@ -105,13 +105,13 @@ func (mappingCodeObject *MappingCode) FindMappingCodeById(id uint) (models.Mappi
 	return findId, nil
 }
 
-// find by definition
-func (mappingCodeObject *MappingCode) FindMappingCodeByDefinition(definition string) error {
+// find by code
+func (mappingCodeObject *MappingCode) FindMappingCodeByCode(code string) error {
 	mappingCode := models.MappingCode{}
 
 	if err := mappingCodeObject.MappingCodeModel().
-		First(&mappingCode, "definition = ?", definition).Error; err == nil {
-		return utils.ErrDefinitionAlreadyExists
+		First(&mappingCode, "code = ?", code).Error; err == nil {
+		return utils.ErrCodeAlreadyExists
 	}
 
 	return nil

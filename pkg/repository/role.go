@@ -18,7 +18,7 @@ type RoleRepository interface {
 	FindRoles(pagination *models.Paginate, search string, usingActive bool, value string) ([]models.Role, *models.Paginate, error)
 	FindRoleByName(name string) error
 	DeleteRole(roleId uint) error
-	UpdateRole(role *dto.UpdateRole) (models.Role, error)
+	UpdateRole(id uint,role *dto.UpdateRole) error
 	SetAccessRole(roleId uint, menus []uint) error
 	UpdateAccessRole(roleId uint, menus []uint) error
 	DeleteAccessRole(roleId uint, menuId uint) error
@@ -72,12 +72,13 @@ func (roleObject *Role) CreateRole(role *dto.CreateRole) (models.Role, error) {
 
 	roleModel := models.Role{
 		Name: role.Name,
+		Description: role.Description,
 		
 	}
 	err := roleObject.db.Create(&roleModel).Error
 
 	if err != nil {
-		return roleModel, err
+		return models.Role{}, err
 	}
 	return roleModel, nil
 
@@ -90,7 +91,7 @@ func (roleObject *Role) FindRoleByName(name string) error {
 		Name: name,
 	}
 
-	if err := roleObject.RoleModel().First(&checkrole, "roles.name = ?", name).Error; err == nil {
+	if err := roleObject.RoleModel().First(&checkrole, "name = ?", name).Error; err == nil {
 		return utils.ErrRoleAlreadyExists
 	}
 
@@ -110,24 +111,22 @@ func (roleObject *Role) FindByName(name string) (models.Role, error) {
 }
 
 // update role
-func (roleObject *Role) UpdateRole(role *dto.UpdateRole) (models.Role, error) {
-	var objectMenus []interface{}
-	for _, action := range role.ObjectActions {
-		objectMenus = append(objectMenus, action)
+func (roleObject *Role) UpdateRole(id uint,role *dto.UpdateRole) error {
+	// var objectMenus []interface{}
+	// for _, action := range role.ObjectActions {
+	// 	objectMenus = append(objectMenus, action)
+	// }
+
+	update := roleObject.RoleModel().Where("roles.id = ?", id).Updates(models.Role{
+		Name: role.Name,
+		Description: role.Description,
+	})
+
+	if err := update.Error; err != nil {
+		return err
 	}
 
-	data := models.Role{
-		
-		Name:        role.Name,
-	}
-
-	updateUser := roleObject.RoleModel().Where("roles.id = ?", role.ID).Updates(&data)
-
-	if err := updateUser.Error; err != nil {
-		return models.Role{}, err
-	}
-
-	return data, nil
+	return nil
 }
 
 // find role
@@ -168,9 +167,9 @@ func (roleObject *Role) FindRoles(pagination *models.Paginate, search string, us
 		data.Where("roles.is_active", true).Count(&pagination.Total)
 	}
 
-	if value != "" {
-		data.Order("roles.id = " + value + " desc")
-	}
+	// if value != "" {
+	// 	data.Order("roles.id = " + value + " desc")
+	// }
 
 	// cari data
 	data.Scopes(pagination.Pagination()).Debug().Find(&roles)

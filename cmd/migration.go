@@ -9,6 +9,7 @@ import (
 	"reflect"
 	"time"
 
+	// "github.com/casbin/casbin/v2/model"
 	"github.com/spf13/cobra"
 )
 
@@ -30,11 +31,8 @@ func initMigration(cfg *config.Config, args []string) {
 			models.MappingCode{},
 			models.MappingKeywordList{},
 			models.MJenisTransaksi{},
-
 			models.ListOpCode{},
-
-			models.MappingKeywordList{},
-
+			models.BinKartu{},
 			
 		}
 		var filtered []interface{}

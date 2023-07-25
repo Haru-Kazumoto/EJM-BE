@@ -37,15 +37,15 @@ func (mJenisTransaksiObject *MJenisTransaksi) FindJenisTransaksi(pagination *mod
 		Count(&pagination.Total)
 
 	// if search != "" {
-	// 	data.Where("lower(jenisTransaksi.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+	// 	data.Where("lower(m_jenis_transaksis.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
 	// }
 
 	// if usingActive {
-	// 	data.Where("jenisTransaksi.is_active", true).Count(&pagination.Total)
+	// 	data.Where("m_jenis_transaksis.is_active", true).Count(&pagination.Total)
 	// }
 
 	if value != "" {
-		data.Order("jenisTransaksi.id = " + value + " desc")
+		data.Order("m_jenis_transaksis.id = " + value + " desc")
 	}
 
 	// cari data
@@ -86,7 +86,7 @@ func (mJenisTransaksiObject *MJenisTransaksi) FindByTransactionType(transactionT
 
 	if err := mJenisTransaksiObject.MJenisTransaksiModel().
 		First(&jenisTransaksi, "transactionType = ?", transactionType).Error; err == nil {
-		return utils.ErrDefinitionAlreadyExists
+		return utils.ErrTransaksiAlreadyExists
 	}
 
 	return nil

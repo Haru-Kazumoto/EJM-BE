@@ -6,6 +6,7 @@ import (
 	"EJM/pkg/repository"
 	"EJM/utils"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -21,12 +22,13 @@ func NewListOpCodeService(service *ListOpCodeService) *ListOpCodeService {
 
 // new list op code
 func (listOpCode *ListOpCodeService) CreateListOpCode(listOpCodeDto *dto.CreateListOpCode) (models.ListOpCode, error) {
-	listOpCodes :=  listOpCode.ListOpCodeRepository
+	listOpCodes := listOpCode.ListOpCodeRepository
 
-	CodeIsExist := listOpCodes.FindListOpCodeByCode(listOpCodeDto.OPCode)
-
-	if CodeIsExist != nil {
-		return models.ListOpCode{}, CodeIsExist
+	// Cek keberadaan data berdasarkan OpCode
+	OpCodeIsExist := listOpCodes.FindByOpCode(listOpCodeDto.OPCode)
+	if OpCodeIsExist != nil {
+		// Data sudah ada, kembalikan error atau berikan tanggapan sesuai kebutuhan.
+		return models.ListOpCode{}, fmt.Errorf("Data with OpCode '%s' already exists", listOpCodeDto.OPCode)
 	}
 
 	data, err := listOpCodes.CreateListOpCode(listOpCodeDto)
@@ -37,8 +39,10 @@ func (listOpCode *ListOpCodeService) CreateListOpCode(listOpCodeDto *dto.CreateL
 	return data, nil
 }
 
+
 //find list op code
-func (listOpCode *ListOpCodeService) FindListOpCode(listOpCodes *dto.GetListOpCode) ([]models.ListOpCode, *models.Paginate, error) {
+// Di dalam service.ListOpCodeService
+func (listOpCode *ListOpCodeService) FindListOpCode(listOpCodes *dto.GetListOpCode) ([]dto.GetListOpCodeResponse, *models.Paginate, error) {
 	pagination := models.Paginate{
 		Page:     listOpCodes.Page,
 		PageSize: listOpCodes.PageSize,
@@ -48,11 +52,37 @@ func (listOpCode *ListOpCodeService) FindListOpCode(listOpCodes *dto.GetListOpCo
 
 	data, meta, err := listOpCodeRepo.FindListOpCode(&pagination, listOpCodes.Search, listOpCodes.Value)
 	if err != nil {
-		return []models.ListOpCode{}, meta, err
+		return []dto.GetListOpCodeResponse{}, meta, err
 	}
 
-	return data, meta, nil
+	// Buat slice baru untuk menyimpan data ListOpCode dengan TransactionType dan TransactionGroup
+	var listOpCodeResponses []dto.GetListOpCodeResponse
+
+	// Lakukan iterasi untuk mengisi data ListOpCode dan mengambil TransactionType dan TransactionGroup berdasarkan TipeTransaksiID
+	for _, listOpCode := range data {
+		// Ambil TransactionType dan TransactionGroup berdasarkan TipeTransaksiID dari repository
+		// details, err := listOpCodeRepo.GetTransactionDetailsByID(listOpCode.TipeTransaksiID)
+		// if err != nil {
+		// 	return []dto.GetListOpCodeResponse{}, meta, err
+		// }
+
+		listOpCodeResponse := dto.GetListOpCodeResponse{
+			ID:              listOpCode.ID,
+			OPCode:          listOpCode.OPCode,
+			ModelMesin:      listOpCode.ModelMesin,
+			TipeTransaksiID: listOpCode.TipeTransaksiID,
+			TransactionType: listOpCode.TipeTransaksi.TransactionType,
+			TransactionGroup: listOpCode.TipeTransaksi.TransactionGroup,
+		}
+
+		listOpCodeResponses = append(listOpCodeResponses, listOpCodeResponse)
+	}
+	
+
+	return listOpCodeResponses, meta, nil
 }
+
+
 
 
 // update list op code
