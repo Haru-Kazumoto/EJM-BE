@@ -32,6 +32,7 @@ func InitializeRoute(server *server.Server, cfg *config.Config) {
 	jenisTransaksiController := controllers.NewMJenisTransaksiController(server)
 	listOpCodeController := controllers.NewListOpCodeController(server)
 	binKartuController := controllers.NewBinKartuController(server)
+	cardRetainedController := controllers.NewCardRetainedController(server)
 
 
 	// middleware
@@ -231,6 +232,11 @@ func InitializeRoute(server *server.Server, cfg *config.Config) {
 			binKartuRoute.POST("/create", binKartuController.CreateBinKartu)
 			binKartuRoute.PUT("/:id", binKartuController.UpdateBinKartu)
 			binKartuRoute.DELETE("/:id", binKartuController.DeleteBinKartu)
+		}
+
+		cardRetainedRoute := prefix.Group("/cardRetained")
+		{
+			cardRetainedRoute.GET("", cardRetainedController.GetCardRetained)
 		}
 	}
 

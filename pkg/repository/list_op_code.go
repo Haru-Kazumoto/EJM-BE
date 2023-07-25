@@ -50,8 +50,14 @@ func (listOpCodeObject *ListOpCode) FindListOpCode(pagination *models.Paginate, 
 		Count(&pagination.Total)
 
 	if search != "" {
-		data.Where("lower(list_op_codes.code) like ?", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
-	}
+		data.Where("lower(list_op_codes.op_code) LIKE ? OR lower(list_op_codes.model_mesin) LIKE ? OR lower(m_jenis_transaksis.transaction_type) LIKE ? OR lower(m_jenis_transaksis.transaction_group) LIKE ?",
+		"%"+strings.ToLower(search)+"%",
+		"%"+strings.ToLower(search)+"%",
+		"%"+strings.ToLower(search)+"%",
+		"%"+strings.ToLower(search)+"%",
+	).
+		Joins("JOIN m_jenis_transaksis ON m_jenis_transaksis.id = list_op_codes.tipe_transaksi_id").
+		Count(&pagination.Total)	}
 
 	if value != "" {
 		data.Order("list_op_codes.id = " + value + "desc")

@@ -1089,6 +1089,69 @@ paths:
       summary: API untuk Membuat Bin Kartu Baru
       tags:
       - Bin Kartu
+  /cardRetained:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID Terminal
+        in: query
+        name: term_id
+        type: string
+      - description: ATM Key
+        in: query
+        name: atm_key
+        type: string
+      - description: Jenis Mesin
+        in: query
+        name: term_type
+        type: string
+      - description: Merk Mesin
+        in: query
+        name: merk
+        type: string
+      - description: Jenis Pengelola
+        in: query
+        name: managed_by
+        type: string
+      - description: Jenis Koneksi
+        in: query
+        name: jarkom
+        type: string
+      - description: Region
+        in: query
+        name: region
+        type: string
+      - description: Area
+        in: query
+        name: area
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponsePaginate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/middlewares.ResponseError'
+      summary: API untuk Get Card Retained
+      tags:
+      - Card Retained
   /jenisTransaksi:
     get:
       consumes:

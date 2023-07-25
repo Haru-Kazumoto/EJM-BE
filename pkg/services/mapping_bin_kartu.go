@@ -48,7 +48,7 @@ func (binKartu *BinKartuService) FindBinKartu(binKartuDto *dto.GetBinKartu) ([]m
 
 	var binKartuRepo  repository.BinKartuRepository = binKartu.BinKartuRepository
 
-	data, meta, err := binKartuRepo.FindBinKartu(&pagination, binKartuDto.Value) 
+	data, meta, err := binKartuRepo.FindBinKartu(&pagination, binKartuDto.Search, binKartuDto.Value) 
 	if err != nil {
 		return []models.BinKartu{}, meta, err
 	}

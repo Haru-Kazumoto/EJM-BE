@@ -5,12 +5,13 @@ import (
 	"EJM/pkg/models"
 	"EJM/utils"
 	"errors"
+	"strings"
 
 	"gorm.io/gorm"
 )
 
 type MJenisTransaksiRepository interface {
-	FindJenisTransaksi(pagination *models.Paginate, value string) ([]models.MJenisTransaksi, *models.Paginate, error)
+	FindJenisTransaksi(pagination *models.Paginate, search string, value string) ([]models.MJenisTransaksi, *models.Paginate, error)
 	FindJenisTransaksiById(id uint) (models.MJenisTransaksi, error)
 	FindByTransactionType(transactionType string) error
 	CreateJenisTransaksi(mJenisTransaksi *dto.CreateNewJenisTransaksi) (models.MJenisTransaksi, error)
@@ -31,18 +32,16 @@ func (mJenisTransaksiObject *MJenisTransaksi) MJenisTransaksiModel() (tx *gorm.D
 }
 
 //find jenis transaksi paginate
-func (mJenisTransaksiObject *MJenisTransaksi) FindJenisTransaksi(pagination *models.Paginate, value string) ([]models.MJenisTransaksi, *models.Paginate, error) {
+func (mJenisTransaksiObject *MJenisTransaksi) FindJenisTransaksi(pagination *models.Paginate, search string, value string) ([]models.MJenisTransaksi, *models.Paginate, error) {
 	var jenisTransaksi []models.MJenisTransaksi
 	data := mJenisTransaksiObject.MJenisTransaksiModel().
 		Count(&pagination.Total)
 
-	// if search != "" {
-	// 	data.Where("lower(m_jenis_transaksis.code) like ? ", "%"+strings.ToLower(search)+"%").Count(&pagination.Total)
-	// }
+	if search != "" {
+		data.Where("lower(m_jenis_transaksis.transaction_type) like ? OR lower(m_jenis_transaksis.transaction_group) like ?", "%"+strings.ToLower(search)+"%","%"+strings.ToLower(search)+"%").Count(&pagination.Total)
+	}
 
-	// if usingActive {
-	// 	data.Where("m_jenis_transaksis.is_active", true).Count(&pagination.Total)
-	// }
+
 
 	if value != "" {
 		data.Order("m_jenis_transaksis.id = " + value + " desc")

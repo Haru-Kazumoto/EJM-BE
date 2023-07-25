@@ -995,6 +995,102 @@ const docTemplate = `{
                 }
             }
         },
+        "/cardRetained": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Card Retained"
+                ],
+                "summary": "API untuk Get Card Retained",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID Terminal",
+                        "name": "term_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ATM Key",
+                        "name": "atm_key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Jenis Mesin",
+                        "name": "term_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Merk Mesin",
+                        "name": "merk",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Jenis Pengelola",
+                        "name": "managed_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Jenis Koneksi",
+                        "name": "jarkom",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Region",
+                        "name": "region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Area",
+                        "name": "area",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponsePaginate"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.ResponseError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
         "/jenisTransaksi": {
             "get": {
                 "consumes": [

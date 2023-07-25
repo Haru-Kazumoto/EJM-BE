@@ -8,6 +8,5 @@ type MappingCode struct {
 	Status     StatusEnum `json:"status" form:"status" gorm:"type:status_enum"`
 	Priority   int `json:"priority" form:"priority" validate:"required"`
 	Active   ActiveEnum `json:"active" form:"active" validate:"required" gorm:"type:isactive_enum"`
-
 }
 

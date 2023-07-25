@@ -48,7 +48,7 @@ func (mJenisTransaksi *MJenisTransaksiService) FindJenisTransaksi(jenisTransaksi
 
 	var mJenisTransaksiRepo  repository.MJenisTransaksiRepository = mJenisTransaksi.MJenisTransaksiRepository
 
-	data, meta, err := mJenisTransaksiRepo.FindJenisTransaksi(&pagination, jenisTransaksi.Value) 
+	data, meta, err := mJenisTransaksiRepo.FindJenisTransaksi(&pagination, jenisTransaksi.Search, jenisTransaksi.Value) 
 	if err != nil {
 		return []models.MJenisTransaksi{}, meta, err
 	}

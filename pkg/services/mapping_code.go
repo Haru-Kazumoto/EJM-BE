@@ -70,7 +70,7 @@ func (mappingCode *MappingCodeService) FindMappingCodes(mappingCodes *dto.GetMap
 
 	var mappingCodeRepo repository.MappingCodeRepository = mappingCode.MappingCodeRepository
 
-	data, meta, err := mappingCodeRepo.FindMappingCodes(&pagination,mappingCodes.UsingActive, mappingCodes.Value) 
+	data, meta, err := mappingCodeRepo.FindMappingCodes(&pagination,mappingCodes.Search,mappingCodes.UsingActive,  mappingCodes.Value) 
 	if err != nil {
 		return []models.MappingCode{}, meta, err
 	}

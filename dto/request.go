@@ -312,3 +312,20 @@ type UpdateBinKartu struct{
 type GetBinKartu struct {
 	BasePagination
 }
+
+type GetCardRetained struct {
+	TermID      string `json:"term_id" query:"term_id"`
+	ATMKey      string `json:"atm_key" query:"atm_key"`
+	TermType    string `json:"term_type" query:"term_type"`
+	Merk        string `json:"merk" query:"merk"`
+	ManagedBy   string `json:"managed_by" query:"managed_by"`
+	Jarkom      string `json:"jarkom" query:"jarkom"`
+	Region      string `json:"region" query:"region"`
+	Area        string `json:"area" query:"area"`
+}
+
+type GetCardRetainedResponse struct {
+	ID             uint   `json:"id"`
+	Merk           string `json:"merk"`
+	CardRetainedTes string `json:"cardretained"`
+}
