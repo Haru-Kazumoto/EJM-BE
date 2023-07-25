@@ -14,6 +14,7 @@ type MappingKeywordListRepository interface {
 	CreateMappingKeywordList(mappingKeywordList *dto.CreateMappingkeywordlist) (models.MappingKeywordList, error)             				   // [register new user]
 	FindMappingkeywordlist(pagination *models.Paginate, search string, value string) ([]models.MappingKeywordList, *models.Paginate, error)
 	FindMappingkeywordlistById(id uint) (models.MappingKeywordList, error) // [delete user by id]
+	FindMappingKeywordListByKeyword(keyword string) error
 	UpdateMappingkeywordlist(id uint, user *dto.UpdateMappingkeywordlist) error                         						  //[update user by id]
 	DeleteMappingkeywordlist(id uint) error                         
 }
@@ -96,6 +97,17 @@ func (mappingKeywordListObject *MappingKeywordList) FindMappingkeywordlistById(i
 	}
 
 	return findId, nil
+}
+
+func (mappingCodeObject *MappingKeywordList) FindMappingKeywordListByKeyword(keyword string) error {
+	mappingKeywordList := models.MappingKeywordList{}
+
+	if err := mappingCodeObject.MappingKeywordListModel().
+		First(&mappingKeywordList, "keyword = ?", keyword).Error; err == nil {
+		return utils.ErrMappingKeywordListAlreadyExists
+	}
+
+	return nil
 }
 
 // create mapping keyword list

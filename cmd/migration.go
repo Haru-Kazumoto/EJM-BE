@@ -30,11 +30,11 @@ func initMigration(cfg *config.Config, args []string) {
 			models.MappingCode{},
 			models.MappingKeywordList{},
 			models.MJenisTransaksi{},
-<<<<<<< HEAD
+
 			models.ListOpCode{},
-=======
+
 			models.MappingKeywordList{},
->>>>>>> 52eb164fa0047c29b4b0c6f77bc667835ff89ee5
+
 			
 		}
 		var filtered []interface{}

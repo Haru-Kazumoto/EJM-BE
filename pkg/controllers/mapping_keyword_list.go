@@ -56,12 +56,17 @@ func (mappingKeyowrdListController *MappingKeyowrdListController) CreateMappingK
 
 	data, err := mappingKeyowrdListController.mappingKeywordListService.CreateMappingKeywordList(req)
 	if err != nil {
-		if err.Error() == "Keyword already exists" {
-		return echo.NewHTTPError(http.StatusBadRequest, "Keyword already exits")
-	}
+		if errors.Is(err, utils.ErrMappingKeywordListAlreadyExists) {
+			res := utils.Response{
+				Data:       nil,
+				Message:    "Mapping Keyword List Already Exist",
+				StatusCode: 404,
+			}
+			return res.ReturnSingleMessage(c)
+		}
 
 	return err
-}
+	}
 
 	res := utils.Response{
 		Data: data,
@@ -148,7 +153,7 @@ func (mappingKeyowrdListController *MappingKeyowrdListController) UpdateMappingk
 	// check id available in database?
 	_, errFind := mappingKeyowrdListController.mappingKeywordListService.FindMappingkeywordlistById(uint(id))
 	if errFind != nil {
-		if errors.Is(errFind, utils.ErrMappingKeywordListNotFound) {
+		if errors.Is(errFind, utils.ErrMappingKeywordListAlreadyExists) {
 			res := utils.Response{
 				Data: nil,
 				Message: "Data not found",

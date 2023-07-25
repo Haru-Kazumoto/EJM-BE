@@ -52,16 +52,16 @@ var (
 	ErrMappingKeywordListNotFound = &BeError{
 		status: http.StatusNotFound,
 		msg: &i18n.Message{
-			ID:    "user.not.found",
-			Other: "User Not Found",
+			ID:    "mappingekywordlist.not.found",
+			Other: "Mapping Keyword Lisr Not Found",
 		},
 	}
 
 	ErrListOpCodeNotFound = &BeError{
 		status: http.StatusNotFound,
 		msg: &i18n.Message{
-			ID:    "user.not.found",
-			Other: "User Not Found",
+			ID:    "liatopcode.not.found",
+			Other: "List Op Code Not Found",
 		},
 	}
 
@@ -116,11 +116,25 @@ var (
 			Other: "Mapping Code already exists",
 		},
 	}
+	ErrMappingKeywordListAlreadyExists = &BeError{
+		status: http.StatusNotFound,
+		msg: &i18n.Message{
+			ID:    "mappingKeywroddList.already.exists",
+			Other: "Mapping Keyword List already exists",
+		},
+	}
 	ErrTransactionTypeAlreadyExists = &BeError{
 		status: http.StatusNotFound,
 		msg: &i18n.Message{
 			ID:    "TransactionType.already.exists",
 			Other: "Transaction type already exists",
+		},
+	}
+	ErrListOpCodeAlreadyExists = &BeError{
+		status: http.StatusNotFound,
+		msg: &i18n.Message{
+			ID:    "listOpCode.already.exists",
+			Other: "List Op Code already exists",
 		},
 	}
 	ErrCredentialInvalid = &BeError{

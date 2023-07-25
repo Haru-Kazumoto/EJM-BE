@@ -13,6 +13,7 @@ import (
 type ListOpCodeRepository interface{
 	FindListOpCode(pagination *models.Paginate, search string, value string) ([]models.ListOpCode, *models.Paginate, error)
 	FindListOpCodeById(id uint) (models.ListOpCode, error)
+	FindListOpCodeByCode(OPCode string) error
 	CreateListOpCode(listOpCode *dto.CreateListOpCode) (models.ListOpCode, error)
 	UpdateListOpCode(id uint, listOpCode *dto.UpdateListOpCode) error
 	DeleteListOpCode(id uint) error
@@ -64,6 +65,18 @@ func (listOpCodeObject *ListOpCode) FindListOpCode(pagination *models.Paginate, 
 	}
 
 	return listOpCodes, pagination, nil
+}
+
+// find by code
+func (listOpCodeObject *ListOpCode) FindListOpCodeByCode(OPCode string) error {
+	listOpCode := models.ListOpCode{}
+
+	if err := listOpCodeObject.ListOpCodeModel().
+		First(&listOpCode, "OPCode = ?", OPCode).Error; err == nil {
+		return utils.ErrListOpCodeAlreadyExists
+	}
+
+	return nil
 }
 
 // find by id

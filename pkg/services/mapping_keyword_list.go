@@ -31,6 +31,11 @@ func NewMappingKeywordListService(constructor *MappingKeywordListService) *Mappi
 func (mappingKeywordList *MappingKeywordListService) CreateMappingKeywordList(mappingKeywordListDto *dto.CreateMappingkeywordlist) (models.MappingKeywordList, error){
 	mappingKeywordLists := mappingKeywordList.MappingKeywordListRepository
 
+	KeywordIsExist := mappingKeywordLists.FindMappingKeywordListByKeyword(mappingKeywordListDto.Keyword)
+
+	if KeywordIsExist != nil {
+		return models.MappingKeywordList{}, KeywordIsExist
+	}
 	data, err := mappingKeywordLists.CreateMappingKeywordList(mappingKeywordListDto)
 	if err != nil {
 		return models.MappingKeywordList{}, err
@@ -48,7 +53,7 @@ func (mappingKeywordList *MappingKeywordListService) FindMappingkeywordlist(mapp
 
 	var mappingKewordListRepo repository.MappingKeywordListRepository = mappingKeywordList.MappingKeywordListRepository
 
-	data, meta, err := mappingKewordListRepo.FindMappingkeywordlist(&pagination, mappingKeywordLists.Search, mappingKeywordLists.Value)
+	data, meta, err := mappingKewordListRepo.FindMappingkeywordlist(&pagination, mappingKeywordLists.Search, mappingKeywordLists.Value,)
 	if err != nil {
 		return []models.MappingKeywordList{}, meta, err
 	}
@@ -78,6 +83,7 @@ func (mappingKeywordList *MappingKeywordListService) UpdateMappingkeywordlist(id
 
 	return mappingKeywordListRepo.UpdateMappingkeywordlist(id, mapping_keyword_list)
 }
+
 // delete mapping keyword list
 func (mappingKeywordList *MappingKeywordListService) DeleteMappingkeywordlist(id uint) error {
 	var mappingKewordListRepo repository.MappingKeywordListRepository

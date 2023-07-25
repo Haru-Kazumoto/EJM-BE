@@ -54,11 +54,15 @@ func (listOpCodeController *ListOpCodeController) CreateListOpCode(c echo.Contex
 
 	data, err := listOpCodeController.listOpCodeService.CreateListOpCode(req)
 	if err != nil {
-		if err.Error() == "Keyword already exist" {
-			return echo.NewHTTPError(http.StatusBadRequest, "Keyword already exists")
+		if errors.Is(err, utils.ErrListOpCodeAlreadyExists) {
+			res := utils.Response{
+				Data:       nil,
+				Message:    "List Op Code Already Exist",
+				StatusCode: 404,
+			}
+			return res.ReturnSingleMessage(c)
 		}
 
-		return err
 	}
 
 	res := utils.Response{

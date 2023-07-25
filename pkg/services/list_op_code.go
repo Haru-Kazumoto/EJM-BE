@@ -21,9 +21,15 @@ func NewListOpCodeService(service *ListOpCodeService) *ListOpCodeService {
 
 // new list op code
 func (listOpCode *ListOpCodeService) CreateListOpCode(listOpCodeDto *dto.CreateListOpCode) (models.ListOpCode, error) {
-	listOpCodes :=  listOpCode.ListOpCodeRepository
+	listOpCodesRepo :=  listOpCode.ListOpCodeRepository
 
-	data, err := listOpCodes.CreateListOpCode(listOpCodeDto)
+	CodeIsExist := listOpCodesRepo.FindListOpCodeByCode(listOpCodeDto.OPCode)
+
+	if CodeIsExist != nil {
+		return models.ListOpCode{}, CodeIsExist
+	}
+
+	data, err := listOpCodesRepo.CreateListOpCode(listOpCodeDto)
 	if err != nil {
 		return models.ListOpCode{}, err
 	}
